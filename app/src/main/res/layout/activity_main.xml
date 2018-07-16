@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background">
+
+    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/imageviewMain"
+        android:layout_width="278dp"
+        android:layout_height="374dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        app:srcCompat="@drawable/bars" />
+
+    <Button
+        android:id="@+id/but2"
+        android:layout_width="275dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="169dp"
+        android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/imageView13"
+        android:layout_width="317dp"
+        android:layout_height="232dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="109dp"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/logo" />
+
+    <Spinner
+        android:id="@+id/spinnerKlassen"
+        android:layout_width="250dp"
+        android:layout_height="43dp"
+        android:layout_above="@+id/but2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:entries="@array/spinner_klassen"
+        android:fontFamily="@font/arimo"
+        android:spinnerMode="dialog"
+        android:textAlignment="center"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp" />
+
+</RelativeLayout>

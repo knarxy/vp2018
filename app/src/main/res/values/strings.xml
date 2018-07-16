@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">MPG Vertretungsplan</string>
+    <string name="logo">TODO</string>
+    <string name="menu">TODO</string>
+
+    <string-array name="spinner_klassen">
+        <item>5a</item>
+        <item>5b</item>
+        <item>5c</item>
+        <item>5d</item>
+        <item>6a</item>
+        <item>6b</item>
+        <item>6c</item>
+        <item>6d</item>
+        <item>7a</item>
+        <item>7b</item>
+        <item>7c</item>
+        <item>7d</item>
+        <item>8a</item>
+        <item>8b</item>
+        <item>8c</item>
+        <item>8d</item>
+        <item>9a</item>
+        <item>9b</item>
+        <item>9c</item>
+        <item>9d</item>
+        <item>9e</item>
+        <item>10a</item>
+        <item>10b</item>
+        <item>10c</item>
+        <item>10d</item>
+        <item>10e</item>
+        <item>JG1</item>
+        <item>JG2</item>
+        <item>xy</item>
+    </string-array>
+
+</resources>

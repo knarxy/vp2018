@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bgvp"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_main">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="287dp"
+        android:layout_height="367dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="58dp"
+        android:fontFamily="@font/arimo"
+        android:text="TextView"
+        android:textColor="@android:color/background_light"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="308dp"
+        android:layout_height="185dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        app:srcCompat="@drawable/menu" />
+
+    <Button
+        android:id="@+id/monday"
+        android:layout_width="56dp"
+        android:layout_height="58dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/imageView"
+        android:layout_marginTop="72dp" />
+
+    <Button
+        android:id="@+id/tuesday"
+        android:layout_width="62dp"
+        android:layout_height="58dp"
+        android:layout_alignTop="@+id/monday"
+        android:layout_toEndOf="@+id/monday" />
+
+    <Button
+        android:id="@+id/wednesday"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignTop="@+id/monday"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/thursday"
+        android:layout_width="65dp"
+        android:layout_height="61dp"
+        android:layout_alignTop="@+id/monday"
+        android:layout_toEndOf="@+id/wednesday" />
+
+    <Button
+        android:id="@+id/friday"
+        android:layout_width="65dp"
+        android:layout_height="59dp"
+        android:layout_alignTop="@+id/monday"
+        android:layout_toEndOf="@+id/thursday" />
+
+    <Button
+        android:id="@+id/settings"
+        android:layout_width="57dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true" />
+
+</RelativeLayout>
