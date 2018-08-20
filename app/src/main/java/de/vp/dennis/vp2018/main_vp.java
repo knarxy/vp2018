@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
+import de.vp.dennis.vp2018.core.InternetCheck;
 import de.vp.dennis.vp2018.core.Vertretung;
 import de.vp.dennis.vp2018.core.VertretungsHandle;
 import de.vp.dennis.vp2018.utils.OnSwipeTouchListener;
@@ -243,31 +244,47 @@ public class main_vp extends AppCompatActivity {
                     weekNumber = String.valueOf(weekNr);
                 }
 
+
                 String klasse = MainActivity.sp.getString("Klasse", null);
                 if(klasse != null && klasse != "") {
+
+                    if(InternetCheck.isOnline()) {
+
                     VertretungsHandle.sortDays(VertretungsHandle.getSource(klasse, weekNumber));
 
                     Map<String, Vertretung> map = new TreeMap<>(VertretungsHandle.vp);
+                    if(!map.isEmpty()) {
 
-                    for (Map.Entry<String, Vertretung> e : map.entrySet()) {
-                        String key = e.getKey();
-                        Vertretung v = e.getValue();
 
-                        if (key.startsWith("monday")) {
-                            monday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
-                        } else if (key.startsWith("tuesday")) {
-                            tuesday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
-                        } else if (key.startsWith("wednesday")) {
-                            wednesday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
-                        } else if (key.startsWith("thursday")) {
-                            thursday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
-                        } else if (key.startsWith("friday")) {
-                            friday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
+                        for (Map.Entry<String, Vertretung> e : map.entrySet()) {
+                            String key = e.getKey();
+                            Vertretung v = e.getValue();
+
+                            if (key.startsWith("monday")) {
+                                monday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
+                            } else if (key.startsWith("tuesday")) {
+                                tuesday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
+                            } else if (key.startsWith("wednesday")) {
+                                wednesday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
+                            } else if (key.startsWith("thursday")) {
+                                thursday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
+                            } else if (key.startsWith("friday")) {
+                                friday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
+                            }
                         }
+
+                    }else{
+                        monday = tuesday = wednesday = thursday = friday = "Für diese Woche sind keine Vertretungen eingetragen (Ferien?)";
                     }
+
+                    }else{
+                        monday = tuesday = wednesday = thursday = friday = "Derzeit besteht keine Internetverbindung!";
+                    }
+
+
                 }else{
                     // lead back to menu
-                    // keine klasse angegeben
+                    // keine klasse angegeben (BUG?)
                     intentToMenu();
                 }
 

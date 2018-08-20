@@ -65,10 +65,19 @@
         android:layout_alignTop="@+id/monday"
         android:layout_toEndOf="@+id/thursday" />
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="24dp"
+        android:layout_height="23dp"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_marginStart="11dp"
+        android:layout_toEndOf="@+id/textView"
+        app:srcCompat="@drawable/settings" />
+
     <Button
         android:id="@+id/settings"
         android:layout_width="57dp"
-        android:layout_height="wrap_content"
+        android:layout_height="58dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true" />
 
