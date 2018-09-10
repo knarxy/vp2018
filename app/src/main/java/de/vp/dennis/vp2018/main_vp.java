@@ -2,20 +2,18 @@ package de.vp.dennis.vp2018;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
+import de.vp.dennis.vp2018.core.DoesUrlExist;
 import de.vp.dennis.vp2018.core.InternetCheck;
 import de.vp.dennis.vp2018.core.Vertretung;
 import de.vp.dennis.vp2018.core.VertretungsHandle;
@@ -165,8 +163,6 @@ public class main_vp extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     Thread startup = new Thread(new Runnable() {
@@ -251,6 +247,7 @@ public class main_vp extends AppCompatActivity {
                     if(InternetCheck.isOnline()) {
 
                     VertretungsHandle.sortDays(VertretungsHandle.getSource(klasse, weekNumber));
+                    System.out.println("Suche nach w/"+weekNumber+"/"+klasse+"!");
 
                     Map<String, Vertretung> map = new TreeMap<>(VertretungsHandle.vp);
                     if(!map.isEmpty()) {
@@ -274,9 +271,15 @@ public class main_vp extends AppCompatActivity {
                         }
 
                     }else{
-                        monday = tuesday = wednesday = thursday = friday = "Für diese Woche sind keine Vertretungen eingetragen (Ferien?)";
-                    }
+                        System.out.println("TreeMap ist leer.");
 
+                        String url = "http://mpg-vertretungsplan.de/w/" + weekNumber + "/" + klasse + ".htm";
+                        if(!DoesUrlExist.exists(url)){
+                            monday = tuesday = wednesday = thursday = friday = "Unter der dynamisch generierten URL wurde kein Vertretungsplan gefunden (Externer Fehler?). (Fehlercode: 404)";
+                        }else {
+                            monday = tuesday = wednesday = thursday = friday = "Für diese Woche wurden entweder keine Vertretungen eingetragen oder es handelt sich um einen Fehler. (Fehlercode: 001)";
+                        }
+                    }
                     }else{
                         monday = tuesday = wednesday = thursday = friday = "Derzeit besteht keine Internetverbindung!";
                     }

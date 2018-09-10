@@ -17,161 +17,165 @@ public class VertretungsHandle {
 
     public static ArrayList<String> getSource(String klasse, String woche) {
 
-        String url = "http://mpg-vertretungsplan.de/w/"+woche+"/"+klasse+".htm";
+        String url = "http://mpg-vertretungsplan.de/w/" + woche + "/" + klasse + ".htm";
 
-        Document doc = null;
-        try {
-            doc = Jsoup.connect(url).get();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        if (DoesUrlExist.exists(url)) {
 
-        ArrayList<String> returnment = new ArrayList<>();
-        for (String s : doc.toString().replace("\"", "").split("\n"))
-        {
-            returnment.add(s);
+            Document doc = null;
+            try {
+                doc = Jsoup.connect(url).get();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            ArrayList<String> returnment = new ArrayList<>();
+            for (String s : doc.toString().replace("\"", "").split("\n")) {
+                returnment.add(s);
+            }
+            return returnment;
+        }else{
+            System.out.println("Achtung! URL "+url.toString()+" wurde nicht gefunden!");
+            return null;
         }
-        return returnment;
     }
+
 
     public static void sortDays(ArrayList<String> days) {
 
-        // Monday
+            // Monday
 
-        int mondayint = 0;
-        boolean mondaybool = false;
-        ArrayList<String> monday = new ArrayList<>();
+            int mondayint = 0;
+            boolean mondaybool = false;
+            ArrayList<String> monday = new ArrayList<>();
 
-        for (String s : days) {
+            for (String s : days) {
 
-            if (s.contains("<a name=2>")) {
-                mondaybool = false;
+                if (s.contains("<a name=2>")) {
+                    mondaybool = false;
+                }
+
+                if (mondaybool == true) {
+                    monday.add(days.get(mondayint));
+                }
+
+                if (s.contains("<a name=1>")) {
+                    monday.add(days.get(mondayint));
+                    mondaybool = true;
+                }
+                mondayint++;
             }
 
-            if (mondaybool == true) {
-                monday.add(days.get(mondayint));
+            addVP(monday, "monday");
+
+
+            // Tuesday
+
+            int tuesdayint = 0;
+            boolean tuesdaybool = false;
+            ArrayList<String> tuesday = new ArrayList<>();
+
+            for (String s : days) {
+
+                if (s.contains("<a name=3>")) {
+                    tuesdaybool = false;
+                }
+
+                if (tuesdaybool == true) {
+                    tuesday.add(days.get(tuesdayint));
+                }
+
+                if (s.contains("<a name=2>")) {
+                    tuesday.add(days.get(tuesdayint));
+                    tuesdaybool = true;
+                }
+
+                tuesdayint++;
             }
 
-            if (s.contains("<a name=1>")) {
-                monday.add(days.get(mondayint));
-                mondaybool = true;
-            }
-            mondayint++;
-        }
-
-        addVP(monday, "monday");
+            addVP(tuesday, "tuesday");
 
 
-        // Tuesday
+            // Wednesday
 
-        int tuesdayint = 0;
-        boolean tuesdaybool = false;
-        ArrayList<String> tuesday = new ArrayList<>();
+            int wednesdayint = 0;
+            boolean wednesdaybool = false;
+            ArrayList<String> wednesday = new ArrayList<>();
 
-        for (String s : days) {
+            for (String s : days) {
 
-            if (s.contains("<a name=3>")) {
-                tuesdaybool = false;
-            }
+                if (s.contains("<a name=4>")) {
+                    wednesdaybool = false;
+                }
 
-            if (tuesdaybool == true) {
-                tuesday.add(days.get(tuesdayint));
-            }
+                if (wednesdaybool == true) {
+                    wednesday.add(days.get(wednesdayint));
+                }
 
-            if (s.contains("<a name=2>")) {
-                tuesday.add(days.get(tuesdayint));
-                tuesdaybool = true;
+                if (s.contains("<a name=3>")) {
+                    wednesday.add(days.get(wednesdayint));
+                    wednesdaybool = true;
+                }
+
+                wednesdayint++;
             }
 
-            tuesdayint++;
-        }
-
-        addVP(tuesday, "tuesday");
+            addVP(wednesday, "wednesday");
 
 
-        // Wednesday
+            // Thursday
 
-        int wednesdayint = 0;
-        boolean wednesdaybool = false;
-        ArrayList<String> wednesday = new ArrayList<>();
+            int thursdayint = 0;
+            boolean thursdaybool = false;
+            ArrayList<String> thursday = new ArrayList<>();
 
-        for (String s : days) {
+            for (String s : days) {
 
-            if (s.contains("<a name=4>")) {
-                wednesdaybool = false;
+                if (s.contains("<a name=5>")) {
+                    thursdaybool = false;
+                }
+
+                if (thursdaybool == true) {
+                    thursday.add(days.get(thursdayint));
+                }
+
+                if (s.contains("<a name=4>")) {
+                    thursday.add(days.get(thursdayint));
+                    thursdaybool = true;
+                }
+
+                thursdayint++;
             }
 
-            if (wednesdaybool == true) {
-                wednesday.add(days.get(wednesdayint));
+            addVP(thursday, "thursday");
+
+
+            // Friday
+
+            int fridayint = 0;
+            boolean fridaybool = false;
+            ArrayList<String> friday = new ArrayList<>();
+
+            for (String s : days) {
+
+                if (s.contains("<a name=6>")) {
+                    fridaybool = false;
+                }
+
+                if (fridaybool == true) {
+                    friday.add(days.get(fridayint));
+                }
+
+                if (s.contains("<a name=5>")) {
+                    friday.add(days.get(fridayint));
+                    fridaybool = true;
+                }
+
+                fridayint++;
             }
 
-            if (s.contains("<a name=3>")) {
-                wednesday.add(days.get(wednesdayint));
-                wednesdaybool = true;
-            }
-
-            wednesdayint++;
-        }
-
-        addVP(wednesday, "wednesday");
-
-
-        // Thursday
-
-        int thursdayint = 0;
-        boolean thursdaybool = false;
-        ArrayList<String> thursday = new ArrayList<>();
-
-        for (String s : days) {
-
-            if (s.contains("<a name=5>")) {
-                thursdaybool = false;
-            }
-
-            if (thursdaybool == true) {
-                thursday.add(days.get(thursdayint));
-            }
-
-            if (s.contains("<a name=4>")) {
-                thursday.add(days.get(thursdayint));
-                thursdaybool = true;
-            }
-
-            thursdayint++;
-        }
-
-        addVP(thursday, "thursday");
-
-
-        // Friday
-
-        int fridayint = 0;
-        boolean fridaybool = false;
-        ArrayList<String> friday = new ArrayList<>();
-
-        for (String s : days) {
-
-            if (s.contains("<a name=6>")) {
-                fridaybool = false;
-            }
-
-            if (fridaybool == true) {
-                friday.add(days.get(fridayint));
-            }
-
-            if (s.contains("<a name=5>")) {
-                friday.add(days.get(fridayint));
-                fridaybool = true;
-            }
-
-            fridayint++;
-        }
-
-        addVP(friday, "friday");
+            addVP(friday, "friday");
 
     }
-
-
 
 
 
