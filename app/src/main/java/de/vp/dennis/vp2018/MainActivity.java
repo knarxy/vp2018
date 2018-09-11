@@ -74,56 +74,58 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("Klasse", "w00003");
                 }else if(spinner.getSelectedItem().equals("5d")){
                     editor.putString("Klasse", "w00004");
-                }else if(spinner.getSelectedItem().equals("6a")){
+                }else if(spinner.getSelectedItem().equals("5e")){
                     editor.putString("Klasse", "w00005");
-                }else if(spinner.getSelectedItem().equals("6b")){
+                }else if(spinner.getSelectedItem().equals("5f")){
                     editor.putString("Klasse", "w00006");
-                }else if(spinner.getSelectedItem().equals("6c")){
+                }else if(spinner.getSelectedItem().equals("6a")){
                     editor.putString("Klasse", "w00007");
-                }else if(spinner.getSelectedItem().equals("6d")){
+                }else if(spinner.getSelectedItem().equals("6b")){
                     editor.putString("Klasse", "w00008");
-                }else if(spinner.getSelectedItem().equals("7a")){
+                }else if(spinner.getSelectedItem().equals("6c")){
                     editor.putString("Klasse", "w00009");
-                }else if(spinner.getSelectedItem().equals("7b")){
+                }else if(spinner.getSelectedItem().equals("6d")){
                     editor.putString("Klasse", "w00010");
-                }else if(spinner.getSelectedItem().equals("7c")){
+                }else if(spinner.getSelectedItem().equals("7a")){
                     editor.putString("Klasse", "w00011");
-                }else if(spinner.getSelectedItem().equals("7d")){
+                }else if(spinner.getSelectedItem().equals("7b")){
                     editor.putString("Klasse", "w00012");
-                }else if(spinner.getSelectedItem().equals("8a")){
+                }else if(spinner.getSelectedItem().equals("7c")){
                     editor.putString("Klasse", "w00013");
-                }else if(spinner.getSelectedItem().equals("8b")){
+                }else if(spinner.getSelectedItem().equals("7d")){
                     editor.putString("Klasse", "w00014");
-                }else if(spinner.getSelectedItem().equals("8c")){
+                }else if(spinner.getSelectedItem().equals("8a")){
                     editor.putString("Klasse", "w00015");
-                }else if(spinner.getSelectedItem().equals("8d")){
+                }else if(spinner.getSelectedItem().equals("8b")){
                     editor.putString("Klasse", "w00016");
-                }else if(spinner.getSelectedItem().equals("9a")){
+                }else if(spinner.getSelectedItem().equals("8c")){
                     editor.putString("Klasse", "w00017");
-                }else if(spinner.getSelectedItem().equals("9b")){
+                }else if(spinner.getSelectedItem().equals("8d")){
                     editor.putString("Klasse", "w00018");
-                }else if(spinner.getSelectedItem().equals("9c")){
+                }else if(spinner.getSelectedItem().equals("9a")){
                     editor.putString("Klasse", "w00019");
-                }else if(spinner.getSelectedItem().equals("9d")){
+                }else if(spinner.getSelectedItem().equals("9b")){
                     editor.putString("Klasse", "w00020");
-                }else if(spinner.getSelectedItem().equals("9e")){
+                }else if(spinner.getSelectedItem().equals("9c")){
                     editor.putString("Klasse", "w00021");
-                }else if(spinner.getSelectedItem().equals("10a")){
+                }else if(spinner.getSelectedItem().equals("9d")){
                     editor.putString("Klasse", "w00022");
-                }else if(spinner.getSelectedItem().equals("10b")){
+                }else if(spinner.getSelectedItem().equals("10a")){
                     editor.putString("Klasse", "w00023");
-                }else if(spinner.getSelectedItem().equals("10c")){
+                }else if(spinner.getSelectedItem().equals("10b")){
                     editor.putString("Klasse", "w00024");
-                }else if(spinner.getSelectedItem().equals("10d")){
+                }else if(spinner.getSelectedItem().equals("10c")){
                     editor.putString("Klasse", "w00025");
-                }else if(spinner.getSelectedItem().equals("10e")){
+                }else if(spinner.getSelectedItem().equals("10d")){
                     editor.putString("Klasse", "w00026");
-                }else if(spinner.getSelectedItem().equals("JG1")){
+                }else if(spinner.getSelectedItem().equals("10e")){
                     editor.putString("Klasse", "w00027");
-                }else if(spinner.getSelectedItem().equals("JG2")){
+                }else if(spinner.getSelectedItem().equals("JG1")){
                     editor.putString("Klasse", "w00028");
-                }else if(spinner.getSelectedItem().equals("xy")){
+                }else if(spinner.getSelectedItem().equals("JG2")){
                     editor.putString("Klasse", "w00029");
+                }else if(spinner.getSelectedItem().equals("xy")){
+                    editor.putString("Klasse", "w00030");
                 }
 
                 editor.apply();
