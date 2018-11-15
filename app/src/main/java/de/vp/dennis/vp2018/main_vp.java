@@ -39,6 +39,7 @@ public class main_vp extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        findViewById(R.id.loadingPanel).setVisibility(View.GONE);
 
         final Button settings = findViewById(R.id.settings);
         settings.setVisibility(View.VISIBLE);
@@ -204,6 +205,69 @@ public class main_vp extends AppCompatActivity {
                     dayoweek = "montag";
                 }
 
+
+                int weekNr = cal.get(Calendar.WEEK_OF_YEAR);
+
+                System.out.println("Tag Nummer: "+dow);
+                // SONNTAG = TAG 1
+                if (dow > 6 || dow == 1) {
+                    weekNr++;
+                }
+
+                String weekNumber;
+                if (weekNr < 10) {
+                    weekNumber = "0" + weekNr;
+                } else {
+                    weekNumber = String.valueOf(weekNr);
+                }
+
+
+                String klasse = MainActivity.sp.getString("Klasse", null);
+                if(klasse != null && klasse != "") {
+
+                    if (InternetCheck.isOnline()) {
+                        VertretungsHandle.sortDays(VertretungsHandle.getSource(klasse, weekNumber));
+                        System.out.println("Suche nach w/" + weekNumber + "/" + klasse + "!");
+
+                        Map<String, Vertretung> map = new TreeMap<>(VertretungsHandle.vp);
+                        if (!map.isEmpty()) {
+
+                            monday = tuesday = wednesday = thursday = friday = "";
+                            for (Map.Entry<String, Vertretung> e : map.entrySet()) {
+                                String key = e.getKey();
+                                Vertretung v = e.getValue();
+
+                                if (key.startsWith("monday")) {
+                                    monday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
+                                } else if (key.startsWith("tuesday")) {
+                                    tuesday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
+                                } else if (key.startsWith("wednesday")) {
+                                    wednesday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
+                                } else if (key.startsWith("thursday")) {
+                                    thursday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
+                                } else if (key.startsWith("friday")) {
+                                    friday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
+                                }
+                            }
+
+                            insertDefaults();
+
+                        } else {
+                            System.out.println("TreeMap ist leer.");
+
+                            String url = "http://mpg-vertretungsplan.de/w/" + weekNumber + "/" + klasse + ".htm";
+                            if (!DoesUrlExist.exists(url)) {
+                                monday = tuesday = wednesday = thursday = friday = "Unter der dynamisch generierten URL wurde kein Vertretungsplan gefunden (Externer Fehler?). (Fehlercode: 404)";
+                            } else {
+                                monday = tuesday = wednesday = thursday = friday = "Für diese Woche wurden entweder keine Vertretungen eingetragen oder es handelt sich um einen Fehler. (Fehlercode: 001)";
+                            }
+                        }
+                    } else {
+                        monday = tuesday = wednesday = thursday = friday = "Derzeit besteht keine Internetverbindung!";
+                    }
+
+                }
+
                 Thread u1 = new Thread(updateVP);
                 u1.start();
                 u1.join();
@@ -221,76 +285,6 @@ public class main_vp extends AppCompatActivity {
         public void run() {
             try  {
 
-                Calendar cal = Calendar.getInstance();
-                cal.setFirstDayOfWeek(Calendar.MONDAY);
-                cal.setTime(new Date());
-                int weekNr = cal.get(Calendar.WEEK_OF_YEAR);
-
-                int day = cal.get(Calendar.DAY_OF_WEEK);
-                System.out.println("Tag Nummer: "+day);
-                // SONNTAG = TAG 1
-                if (day > 6 || day == 1) {
-                    weekNr++;
-                }
-
-                String weekNumber;
-                if (weekNr < 10) {
-                    weekNumber = "0" + weekNr;
-                } else {
-                    weekNumber = String.valueOf(weekNr);
-                }
-
-
-                String klasse = MainActivity.sp.getString("Klasse", null);
-                if(klasse != null && klasse != "") {
-
-                    if(InternetCheck.isOnline()) {
-
-                    VertretungsHandle.sortDays(VertretungsHandle.getSource(klasse, weekNumber));
-                    System.out.println("Suche nach w/"+weekNumber+"/"+klasse+"!");
-
-                    Map<String, Vertretung> map = new TreeMap<>(VertretungsHandle.vp);
-                    if(!map.isEmpty()) {
-
-
-                        for (Map.Entry<String, Vertretung> e : map.entrySet()) {
-                            String key = e.getKey();
-                            Vertretung v = e.getValue();
-
-                            if (key.startsWith("monday")) {
-                                monday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
-                            } else if (key.startsWith("tuesday")) {
-                                tuesday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
-                            } else if (key.startsWith("wednesday")) {
-                                wednesday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
-                            } else if (key.startsWith("thursday")) {
-                                thursday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
-                            } else if (key.startsWith("friday")) {
-                                friday += replaceChars("» Stunde " + v.stunde + " - " + v.fach + " statt " + v.stattFach + " in Raum " + v.raum + " - " + v.text + " \n \n \n");
-                            }
-                        }
-
-                    }else{
-                        System.out.println("TreeMap ist leer.");
-
-                        String url = "http://mpg-vertretungsplan.de/w/" + weekNumber + "/" + klasse + ".htm";
-                        if(!DoesUrlExist.exists(url)){
-                            monday = tuesday = wednesday = thursday = friday = "Unter der dynamisch generierten URL wurde kein Vertretungsplan gefunden (Externer Fehler?). (Fehlercode: 404)";
-                        }else {
-                            monday = tuesday = wednesday = thursday = friday = "Für diese Woche wurden entweder keine Vertretungen eingetragen oder es handelt sich um einen Fehler. (Fehlercode: 001)";
-                        }
-                    }
-                    }else{
-                        monday = tuesday = wednesday = thursday = friday = "Derzeit besteht keine Internetverbindung!";
-                    }
-
-
-                }else{
-                    // lead back to menu
-                    // keine klasse angegeben (BUG?)
-                    intentToMenu();
-                }
-
                 final TextView tv = findViewById(R.id.textView);
 
                         if(dayoweek == "montag"){
@@ -305,16 +299,6 @@ public class main_vp extends AppCompatActivity {
                             setText(tv, friday);
                         }
 
-
-                monday = "";
-                tuesday = "";
-                wednesday = "";
-                thursday = "";
-                friday = "";
-
-
-                VertretungsHandle.vp.clear();
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -326,10 +310,28 @@ public class main_vp extends AppCompatActivity {
     private static String replaceChars(String s){
         if(s.contains("---")){
             String s1 = s.replace("---", "~");
-            return s1;
+                return s1;
         }else{
             return s;
         }
+    }
+
+    private static void insertDefaults(){
+       if(monday == ""){
+           monday = "Es wurde keine Vertretung eingetragen!";
+       }
+       if(tuesday == ""){
+           tuesday = "Es wurde keine Vertretung eingetragen!";
+       }
+       if(wednesday == ""){
+           wednesday = "Es wurde keine Vertretung eingetragen!";
+       }
+       if(thursday == ""){
+           thursday = "Es wurde keine Vertretung eingetragen!";
+       }
+       if(friday == ""){
+           friday = "Es wurde keine Vertretung eingetragen!";
+       }
     }
 
     private void startIntent(){

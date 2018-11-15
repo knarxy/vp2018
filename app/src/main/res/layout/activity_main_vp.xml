@@ -8,6 +8,17 @@
     android:background="@drawable/bg_main">
 
 
+    <ProgressBar
+        android:id="@+id/loadingPanel"
+        android:layout_width="95dp"
+        android:layout_height="94dp"
+        android:layout_alignStart="@+id/wednesday"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="-25dp"
+        android:gravity="center"
+        android:indeterminate="true" />
+
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="287dp"
@@ -82,3 +93,5 @@
         android:layout_alignParentTop="true" />
 
 </RelativeLayout>
+
+
