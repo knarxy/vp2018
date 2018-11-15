@@ -14,13 +14,13 @@
         android:supportsRtl="true"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".main_vp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main_vp" />
+        <activity android:name=".first_start" />
 
         <meta-data
             android:name="preloaded_fonts"

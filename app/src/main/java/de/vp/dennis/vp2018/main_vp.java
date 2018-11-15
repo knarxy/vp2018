@@ -1,7 +1,13 @@
 package de.vp.dennis.vp2018;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,147 +29,179 @@ public class main_vp extends AppCompatActivity {
 
     private static String monday = "", tuesday = "", wednesday = "", thursday = "", friday = "";
     private static String dayoweek = "";
+    private int perm_internet;
+    public static SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_vp);
 
-     //   getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-       //         WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        sp = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        //      WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.INTERNET)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+
+            // No explanation needed; request the permission
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.INTERNET},
+                    perm_internet);
+
+            // perm_intenet is an
+            // app-defined int constant. The callback method gets the
+            // result of the request.
+
+        } else {
+            // Permission has already been granted
+        }
+
+        //   getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        //         WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         final ImageView iv = findViewById(R.id.imageView);
 
-        startup.start();
-        try {
-            startup.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (sp.getString("Klasse", null) == null || sp.getString("Klasse", null) == "") {
+            intentToMenu();
+        } else {
+
+            startup.start();
+            try {
+                startup.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            final Button settings = findViewById(R.id.settings);
+            settings.setVisibility(View.VISIBLE);
+            settings.setBackgroundColor(Color.TRANSPARENT);
+            settings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startIntent();
+                }
+            });
+
+            final Button monday = findViewById(R.id.monday);
+            monday.setVisibility(View.VISIBLE);
+            monday.setBackgroundColor(Color.TRANSPARENT);
+            monday.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    dayoweek = "montag";
+                    iv.setImageResource(R.drawable.montag);
+                    Thread m = new Thread(updateVP);
+                    m.start();
+                    try {
+                        m.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            final Button tuesday = findViewById(R.id.tuesday);
+            tuesday.setVisibility(View.VISIBLE);
+            tuesday.setBackgroundColor(Color.TRANSPARENT);
+            tuesday.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    dayoweek = "dienstag";
+                    iv.setImageResource(R.drawable.dienstag);
+                    Thread di = new Thread(updateVP);
+                    di.start();
+                    try {
+                        di.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            final Button wednesday = findViewById(R.id.wednesday);
+            wednesday.setVisibility(View.VISIBLE);
+            wednesday.setBackgroundColor(Color.TRANSPARENT);
+            wednesday.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    dayoweek = "mittwoch";
+                    iv.setImageResource(R.drawable.mittwoch);
+                    Thread mi = new Thread(updateVP);
+                    mi.start();
+                    try {
+                        mi.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            final Button thursday = findViewById(R.id.thursday);
+            thursday.setVisibility(View.VISIBLE);
+            thursday.setBackgroundColor(Color.TRANSPARENT);
+            thursday.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    dayoweek = "donnerstag";
+                    iv.setImageResource(R.drawable.donnerstag);
+                    Thread don = new Thread(updateVP);
+                    don.start();
+                    try {
+                        don.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            final Button friday = findViewById(R.id.friday);
+            friday.setVisibility(View.VISIBLE);
+            friday.setBackgroundColor(Color.TRANSPARENT);
+            friday.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    dayoweek = "freitag";
+                    iv.setImageResource(R.drawable.freitag);
+                    Thread fr = new Thread(updateVP);
+                    fr.start();
+                    try {
+                        fr.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            View v = findViewById(R.id.bgvp);
+            v.setOnTouchListener(new OnSwipeTouchListener(v.getContext()) {
+                @Override
+                public void onSwipeLeft() {
+                    if (dayoweek == "montag") {
+                        tuesday.performClick();
+                    } else if (dayoweek == "dienstag") {
+                        wednesday.performClick();
+                    } else if (dayoweek == "mittwoch") {
+                        thursday.performClick();
+                    } else if (dayoweek == "donnerstag") {
+                        friday.performClick();
+                    }
+                }
+
+                @Override
+                public void onSwipeRight() {
+                    if (dayoweek == "dienstag") {
+                        monday.performClick();
+                    } else if (dayoweek == "mittwoch") {
+                        tuesday.performClick();
+                    } else if (dayoweek == "donnerstag") {
+                        wednesday.performClick();
+                    } else if (dayoweek == "freitag") {
+                        thursday.performClick();
+                    }
+                }
+            });
         }
-        findViewById(R.id.loadingPanel).setVisibility(View.GONE);
-
-        final Button settings = findViewById(R.id.settings);
-        settings.setVisibility(View.VISIBLE);
-        settings.setBackgroundColor(Color.TRANSPARENT);
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startIntent();
-            }
-        });
-
-        final Button monday  = findViewById(R.id.monday);
-        monday.setVisibility(View.VISIBLE);
-        monday.setBackgroundColor(Color.TRANSPARENT);
-        monday.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                dayoweek = "montag";
-                iv.setImageResource(R.drawable.montag);
-                Thread m = new Thread(updateVP);
-                m.start();
-                try {
-                    m.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        final Button tuesday = findViewById(R.id.tuesday);
-        tuesday.setVisibility(View.VISIBLE);
-        tuesday.setBackgroundColor(Color.TRANSPARENT);
-        tuesday.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                dayoweek = "dienstag";
-                iv.setImageResource(R.drawable.dienstag);
-                Thread di = new Thread(updateVP);
-                di.start();
-                try {
-                    di.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        final Button wednesday = findViewById(R.id.wednesday);
-        wednesday.setVisibility(View.VISIBLE);
-        wednesday.setBackgroundColor(Color.TRANSPARENT);
-        wednesday.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                dayoweek = "mittwoch";
-                iv.setImageResource(R.drawable.mittwoch);
-                Thread mi = new Thread(updateVP);
-                mi.start();
-                try {
-                    mi.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        final Button thursday = findViewById(R.id.thursday);
-        thursday.setVisibility(View.VISIBLE);
-        thursday.setBackgroundColor(Color.TRANSPARENT);
-        thursday.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                dayoweek = "donnerstag";
-                iv.setImageResource(R.drawable.donnerstag);
-                Thread don = new Thread(updateVP);
-                don.start();
-                try {
-                    don.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        final Button friday = findViewById(R.id.friday);
-        friday.setVisibility(View.VISIBLE);
-        friday.setBackgroundColor(Color.TRANSPARENT);
-        friday.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                dayoweek = "freitag";
-                iv.setImageResource(R.drawable.freitag);
-                Thread fr = new Thread(updateVP);
-                fr.start();
-                try {
-                    fr.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        View v = findViewById(R.id.bgvp);
-        v.setOnTouchListener(new OnSwipeTouchListener(v.getContext()) {
-            @Override
-            public void onSwipeLeft() {
-                if(dayoweek == "montag"){
-                    tuesday.performClick();
-                }else if(dayoweek == "dienstag"){
-                    wednesday.performClick();
-                }else if(dayoweek == "mittwoch"){
-                    thursday.performClick();
-                }else if(dayoweek == "donnerstag"){
-                    friday.performClick();
-                }
-            }
-
-            @Override
-            public void onSwipeRight(){
-                if(dayoweek == "dienstag"){
-                    monday.performClick();
-                }else if(dayoweek == "mittwoch"){
-                    tuesday.performClick();
-                }else if(dayoweek == "donnerstag"){
-                    wednesday.performClick();
-                }else if(dayoweek == "freitag"){
-                    thursday.performClick();
-                }
-            }
-        });
     }
 
     Thread startup = new Thread(new Runnable() {
@@ -222,7 +260,7 @@ public class main_vp extends AppCompatActivity {
                 }
 
 
-                String klasse = MainActivity.sp.getString("Klasse", null);
+                String klasse = sp.getString("Klasse", null);
                 if(klasse != null && klasse != "") {
 
                     if (InternetCheck.isOnline()) {
@@ -271,6 +309,7 @@ public class main_vp extends AppCompatActivity {
                 Thread u1 = new Thread(updateVP);
                 u1.start();
                 u1.join();
+                findViewById(R.id.loadingPanel).setVisibility(View.GONE);
 
             }catch(Exception e){
                 e.printStackTrace();
@@ -340,7 +379,7 @@ public class main_vp extends AppCompatActivity {
     }
 
     private void intentToMenu(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, first_start.class);
         startActivity(intent);
     }
 

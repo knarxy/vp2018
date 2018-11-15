@@ -15,41 +15,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-public class MainActivity extends AppCompatActivity {
+public class first_start extends AppCompatActivity {
 
 
-    private int perm_internet;
-    public static SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        sp = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sp = main_vp.sp;
         final SharedPreferences.Editor editor = sp.edit();
-
-        //    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-          //      WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        // Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.INTERNET)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Permission is not granted
-
-                // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.INTERNET},
-                        perm_internet);
-
-                // perm_intenet is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-
-        } else {
-            // Permission has already been granted
-        }
 
         String klasse = sp.getString("Klasse", null);
         if(klasse != null && klasse != ""){
