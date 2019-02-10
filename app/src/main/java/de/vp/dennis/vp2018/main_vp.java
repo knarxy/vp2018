@@ -24,6 +24,7 @@ import de.vp.dennis.vp2018.core.InternetCheck;
 import de.vp.dennis.vp2018.core.Vertretung;
 import de.vp.dennis.vp2018.core.VertretungsHandle;
 import de.vp.dennis.vp2018.utils.OnSwipeTouchListener;
+import de.vp.dennis.vp2018.utils.strings;
 
 public class main_vp extends AppCompatActivity {
 
@@ -36,28 +37,15 @@ public class main_vp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_vp);
 
-
         sp = PreferenceManager.getDefaultSharedPreferences(this);
 
-        //    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-        //      WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.INTERNET)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // Permission is not granted
-
-            // No explanation needed; request the permission
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.INTERNET},
                     perm_internet);
-
-            // perm_intenet is an
-            // app-defined int constant. The callback method gets the
-            // result of the request.
-
         } else {
             // Permission has already been granted
         }
@@ -66,6 +54,10 @@ public class main_vp extends AppCompatActivity {
         //         WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         final ImageView iv = findViewById(R.id.imageView);
+
+        if(InternetCheck.isOnline()){
+            System.out.println("INFO : "+strings.CONN_ESTABLISHED);
+        }
 
         if (sp.getString("Klasse", null) == null || sp.getString("Klasse", null) == "") {
             intentToMenu();
@@ -77,6 +69,8 @@ public class main_vp extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            /* Consts */
 
             final Button settings = findViewById(R.id.settings);
             settings.setVisibility(View.VISIBLE);
@@ -173,6 +167,10 @@ public class main_vp extends AppCompatActivity {
                 }
             });
 
+            /* END CONSTS */
+
+            /* SWIPE */
+
             View v = findViewById(R.id.bgvp);
             v.setOnTouchListener(new OnSwipeTouchListener(v.getContext()) {
                 @Override
@@ -201,6 +199,9 @@ public class main_vp extends AppCompatActivity {
                     }
                 }
             });
+
+            /* END SWIPE */
+
         }
     }
 
@@ -295,15 +296,14 @@ public class main_vp extends AppCompatActivity {
 
                             String url = "http://mpg-vertretungsplan.de/w/" + weekNumber + "/" + klasse + ".htm";
                             if (!DoesUrlExist.exists(url)) {
-                                monday = tuesday = wednesday = thursday = friday = "Unter der dynamisch generierten URL wurde kein Vertretungsplan gefunden (Externer Fehler?). (Fehlercode: 404)";
+                                monday = tuesday = wednesday = thursday = friday = strings.NO_VP;
                             } else {
-                                monday = tuesday = wednesday = thursday = friday = "Für diese Woche wurden entweder keine Vertretungen eingetragen oder es handelt sich um einen Fehler. (Fehlercode: 001)";
+                                monday = tuesday = wednesday = thursday = friday = strings.NO_SUBST_WEEK;
                             }
                         }
                     } else {
-                        monday = tuesday = wednesday = thursday = friday = "Derzeit besteht keine Internetverbindung!";
+                        monday = tuesday = wednesday = thursday = friday = strings.NO_CONN;
                     }
-
                 }
 
                 Thread u1 = new Thread(updateVP);
@@ -357,19 +357,19 @@ public class main_vp extends AppCompatActivity {
 
     private static void insertDefaults(){
        if(monday == ""){
-           monday = "Es wurde keine Vertretung eingetragen!";
+           monday = strings.NO_SUBST_DAY;
        }
        if(tuesday == ""){
-           tuesday = "Es wurde keine Vertretung eingetragen!";
+           tuesday = strings.NO_SUBST_DAY;
        }
        if(wednesday == ""){
-           wednesday = "Es wurde keine Vertretung eingetragen!";
+           wednesday = strings.NO_SUBST_DAY;
        }
        if(thursday == ""){
-           thursday = "Es wurde keine Vertretung eingetragen!";
+           thursday = strings.NO_SUBST_DAY;
        }
        if(friday == ""){
-           friday = "Es wurde keine Vertretung eingetragen!";
+           friday = strings.NO_SUBST_DAY;
        }
     }
 
